@@ -1,0 +1,7 @@
+include ':lsn11_scaleable'
+include ':lsn10_layout'
+include ':lsn09_bitamap_drawable'
+include ':app'
+include 'lsn06_drwawing1'
+include 'lsn07_drawing2'
+rootProject.name = "hencoder_learning"
