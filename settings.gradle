@@ -1,3 +1,5 @@
+include ':lsn14_nested_scroll'
+include ':lsn13_view_pager'
 include ':lsn11_scaleable'
 include ':lsn10_layout'
 include ':lsn09_bitamap_drawable'
