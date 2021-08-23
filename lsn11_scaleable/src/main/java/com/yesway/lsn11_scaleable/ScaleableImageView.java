@@ -39,7 +39,7 @@ public class ScaleableImageView extends View {
     private ScaleDetectorListener  scaleDetectorListener = new ScaleDetectorListener();
     private GFlingRunner flingRunner = new GFlingRunner();
     boolean big;
-    private float scaleFraction;//这个是一个0~1的值
+    private float currentScale;
     private final OverScroller scroller;
     private ObjectAnimator scaleAnimation;
 
@@ -64,12 +64,12 @@ public class ScaleableImageView extends View {
 //        });
     }
 
-    public float getScaleFraction() {
-        return scaleFraction;
+    public float getCurrentScale() {
+        return currentScale;
     }
 
-    public void setScaleFraction(float scaleFraction) {
-        this.scaleFraction = scaleFraction;
+    public void setCurrentScale(float currentScale) {
+        this.currentScale = currentScale;
         invalidate();
     }
 
@@ -88,21 +88,28 @@ public class ScaleableImageView extends View {
             bigScale = (float) getWidth() / bitmap.getWidth() * SCALE_FACTOR;
             Log.i("guojingbu", "else-------------smallScale = " + smallScale + "----bigScale = " + bigScale);
         }
+        currentScale = smallScale;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.translate(offsetX, offsetY);
-//        canvas.translate(offsetX*scaleFraction, offsetY*scaleFraction);
-        float scale = smallScale + (bigScale - smallScale) * scaleFraction;
-        canvas.scale(scale, scale, getWidth() / 2, getHeight() / 2);
+//        canvas.translate(offsetX, offsetY);
+        float scaleFraction = (currentScale-smallScale)/(bigScale-smallScale);
+        canvas.translate(offsetX*scaleFraction, offsetY*scaleFraction);
+//        float scale = smallScale + (bigScale - smallScale) * scaleFraction;
+        canvas.scale(currentScale, currentScale, getWidth() / 2, getHeight() / 2);
         canvas.drawBitmap(bitmap, originOffsetX, originOffsetY, paint);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return detector.onTouchEvent(event);
+        boolean result = scaleDetector.onTouchEvent(event);
+        //如果不是拈撑
+        if(!scaleDetector.isInProgress()){
+            result = detector.onTouchEvent(event);
+        }
+        return result;
     }
 
     @Override
@@ -113,8 +120,9 @@ public class ScaleableImageView extends View {
 
     public ObjectAnimator getAnimoator() {
         if (scaleAnimation == null) {
-            scaleAnimation = ObjectAnimator.ofFloat(this, "scaleFraction", 0, 1);
+            scaleAnimation = ObjectAnimator.ofFloat(this, "currentScale", 0);
         }
+        scaleAnimation.setFloatValues(smallScale,bigScale);
         return scaleAnimation;
     }
 
@@ -211,6 +219,7 @@ public class ScaleableImageView extends View {
                 //
                 offsetX =(e.getX()-getWidth()/2f)-(e.getX()-getWidth()/2f)*bigScale/smallScale;
                 offsetX =(e.getX()-getHeight()/2f)-(e.getX()-getHeight()/2f)*bigScale/smallScale;
+                fixOffsets();
                 getAnimoator().start();
             } else {
                 getAnimoator().reverse();
@@ -234,15 +243,26 @@ public class ScaleableImageView extends View {
 
     private class ScaleDetectorListener  implements ScaleGestureDetector.OnScaleGestureListener{
 
-
+        float initialScale;
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
-//            detector.getScaleFactor();获取缩放倍数。
+            //获取缩放倍数。
+            currentScale =initialScale*detector.getScaleFactor();
+            if(currentScale<=smallScale){
+                currentScale = smallScale;
+                big = false;
+            }
+            if(currentScale>=bigScale){
+                big = true;
+                currentScale = bigScale;
+            }
+            invalidate();
             return false;
         }
 
         @Override
         public boolean onScaleBegin(ScaleGestureDetector detector) {
+            initialScale = currentScale;
             return true;
         }
 
