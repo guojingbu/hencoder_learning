@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.guojingbu.lsn14_nested_scroll.view.DragHelperGridView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <View
+        android:layout_width="match_parent"
+        android:background="#7CFC00"
+        android:layout_height="match_parent"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="#FFFF00"
+        android:layout_height="match_parent"/>
+    <View
+        android:layout_width="match_parent"
+        android:background="#B03060"
+        android:layout_height="match_parent"/>
+    <View
+        android:layout_width="match_parent"
+        android:background="#D02090"
+        android:layout_height="match_parent"/>
+    <View
+        android:layout_width="match_parent"
+        android:background="#9932CC"
+        android:layout_height="match_parent"/>
+    <View
+        android:layout_width="match_parent"
+        android:background="#4876FF"
+        android:layout_height="match_parent"/>
+
+</com.guojingbu.lsn14_nested_scroll.view.DragHelperGridView>

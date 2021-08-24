@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.guojingbu.lsn14_nested_scroll.view.DragToCollectLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:layout_weight="1"
+            android:contentDescription="avatar"
+            android:src="@drawable/avatar" />
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:contentDescription="logo"
+            android:layout_weight="1"
+            android:src="@drawable/logo" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_cllect_layout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="#78909c" />
+
+
+</com.guojingbu.lsn14_nested_scroll.view.DragToCollectLayout>
